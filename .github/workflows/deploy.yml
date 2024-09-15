@@ -30,9 +30,9 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/ecom-web:latest
 
-      # Deploy to Kubernetes
+      # Set up kubectl (alternative setup action)
       - name: Set up kubectl
-        uses: azure/setup-kubectl@v2
+        uses: actions/setup-kubectl@v2
         with:
           version: 'v1.18.0'
 
@@ -44,3 +44,4 @@ jobs:
       - name: Update Kubernetes deployment
         run: |
           kubectl set image deployment/website-deployment ecommerce-website=${{ secrets.DOCKER_USERNAME }}/ecom-web:latest
+          kubectl rollout status deployment/website-deployment
