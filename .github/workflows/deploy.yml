@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Set up Docker
+      # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -30,7 +30,7 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/ecom-web:latest
 
-      # Set up kubectl with the Azure action
+      # Set up kubectl
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
