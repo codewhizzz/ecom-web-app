@@ -1,4 +1,4 @@
-ommerce Web Application with Kubernetes Deployment
+E-Commerce Web Application with Kubernetes Deployment
 
  Project Overview
 
