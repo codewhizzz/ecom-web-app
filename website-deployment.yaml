@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-deployment
+  labels:
+    app: ecommerce-website
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ecommerce-website
+  template:
+    metadata:
+      labels:
+        app: ecommerce-website
+    spec:
+      containers:
+      - name: ecommerce-website
+        image: damilaretoyese/ecom-web:v3  # Your Docker image
+        ports:
+        - containerPort: 80
+        env:
+        # Reference database credentials from the Secret
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_HOST
+
+        # Reference feature toggles from the ConfigMap
+        - name: FEATURE_DARK_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: feature-toggle-config
+              key: FEATURE_DARK_MODE
+
+        resources:
+          requests:
+            cpu: 200m
+          limits:
+            cpu: 500m
+
+        # Add Liveness and Readiness probes (optional)
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3

@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules/
+.venv/
+.env
+
+# Docker files
+docker-compose.override.yml
+.docker
+
+# Kubernetes
+.kube/
+
+# Logs
+*.log
+
+# System Files
+.DS_Store
