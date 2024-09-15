@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -30,9 +30,9 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/ecom-web:latest
 
-      # Set up kubectl (alternative setup action)
+      # Set up kubectl with the Azure action
       - name: Set up kubectl
-        uses: actions/setup-kubectl@v2
+        uses: azure/setup-kubectl@v3
         with:
           version: 'v1.18.0'
 
